@@ -45,6 +45,9 @@ jobs:
           command: |
             cp build/libs/rest-echo-*.jar /tmp/rest-echo-app.jar
             cp .circleci/setup-heroku.sh /tmp/setup-heroku.sh
+
+      - store_artifacts:
+          path: /tmp/rest-echo-app.jar
       - persist_to_workspace:
           root: /tmp
           paths:
