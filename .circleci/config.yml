@@ -31,12 +31,68 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: gradle dependencies
+      - run: ./gradle dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
+      - run:
+          name: Gradle Build
+          command: ./gradle build
+      - run:
+          name: Copy deployment artifacts to workspace
+          command: |
+            cp target/rest-echo-*.jar /tmp/rest-echo-app.jar
+            cp .circleci/setup-heroku.sh /tmp/setup-heroku.sh
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - rest-echo-app.jar
+            - setup-heroku.sh
 
       # run tests!
-      - run: gradle test
+      # - run: gradle test
+  deploy:
+    machine:
+      enabled: true
+    working_directory: ~/deploy
+    environment:
+    # HEROKU_APP: "echo-rest" # define env var $HEROKU_APP
+    steps:
+      # why rebuild something we already tested, rebuilding invalidates any previous confidence?!
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Setup Heroku
+          command: bash /tmp/setup-heroku.sh # run a script to set up Heroku
+
+      - run:
+          name: Heroku Deploy
+          command: |
+            cp /tmp/rest-echo-app.jar .
+            ls -la
+            heroku plugins:install heroku-cli-deploy
+            heroku plugins:install heroku-cli-deploy  # when debugging on circle image, first run succeeded, but did not make plugin available
+            heroku deploy:jar rest-echo-app.jar --app $HEROKU_APP_NAME
+
+      - run:
+          name: Smoke Test
+          command: |
+            # Heroku deploy command will pass even if application crashes. Simple smoke test to make sure app is up.
+            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$HEROKU_APP_NAME.herokuapp.com/echo`
+            if [ "$HTTPCODE" -ne 200 ];then
+              echo "heroku app not responding, failing deploy"
+              exit 1
+            fi
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
