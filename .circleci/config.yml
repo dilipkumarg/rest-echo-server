@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Copy deployment artifacts to workspace
           command: |
-            cp target/rest-echo-*.jar /tmp/rest-echo-app.jar
+            cp build/libs/rest-echo-*.jar /tmp/rest-echo-app.jar
             cp .circleci/setup-heroku.sh /tmp/setup-heroku.sh
       - persist_to_workspace:
           root: /tmp
