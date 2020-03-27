@@ -1,20 +1,24 @@
-#REST Echo Server
+## REST Echo Server
+
 Simple HTTP Server for acting as ECHO for the request received. It also had ability to save last few requests for
 debugging purposes.
  
 This tool will help us in integrating with Web Hooks, and integrating with other client where we don't know the request
 format. 
 
-##API
-###Echoing Requests
+## API
+
+### Echoing Requests
+
 `URL: <server-url>/echo`
 
 It accepts all the method types (i.e GET, PUT, POST), any request parameters, any header parameters.
 
 It responds with the Data which it got.
 
-###Example
-####Request:
+#### Example
+
+##### Request:
 
     URL: ${"SCHEME"}://${"HOST"}/echo/path1?param1=param1Value
     Method: POST
@@ -24,7 +28,7 @@ It responds with the Data which it got.
     Headers: 
         Content-Type: application/json
 
-####Response
+##### Response
 
     {
     	"url": "path1",
@@ -56,18 +60,21 @@ It responds with the Data which it got.
 
 If the `content-type` is `application/json` Serialization & Deserialization Handled.
 
-###Getting History
+#### Getting History
+
 It will memorizes last 10 requests.
 
 `URL: <server-url>/history`
 
 It returns List of last 10 requests. Response format same as Echo Request.
 
-###Requirements
+### Requirements
+
 * Java 1.8
 * Gradle (Wrapper included)
 
-###Build
+### Build
+
 It is a Spring Boot application. You can do build using below command.
 
 `   ./gradlew build
@@ -75,10 +82,8 @@ It is a Spring Boot application. You can do build using below command.
 
 It generates `rest-echo.jar` in target directory.
 
-###Deploy
+### Deploy
 
 `java -jar rest-echo.jar`
 
 It starts the server in 8080 port.
-
-For more info [Help.md](HELP.md)
