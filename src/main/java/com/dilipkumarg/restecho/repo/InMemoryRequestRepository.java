@@ -1,4 +1,4 @@
-package com.dilipkumarg.restecho.service;
+package com.dilipkumarg.restecho.repo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,11 +8,13 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.dilipkumarg.restecho.entities.RequestDetails;
 
-@Service("inMemory")
+@Profile("dev")
+@Service("inMemoryRequestRepository")
 public class InMemoryRequestRepository implements RequestRepository {
 
     @Value("${app.history.entries.size}")

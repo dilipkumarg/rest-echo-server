@@ -1,4 +1,4 @@
-package com.dilipkumarg.restecho.service;
+package com.dilipkumarg.restecho.repo;
 
 import java.util.Collection;
 

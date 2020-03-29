@@ -17,6 +17,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
 import com.dilipkumarg.restecho.entities.RequestDetails;
+import com.dilipkumarg.restecho.repo.RequestRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +32,8 @@ public class HistoryService {
 
     @Autowired
     public HistoryService(
-            final RequestRepository repository, final ObjectMapper objectMapper) {
+            final RequestRepository repository,
+            final ObjectMapper objectMapper) {
         this.repository = repository;
         this.objectMapper = objectMapper;
     }

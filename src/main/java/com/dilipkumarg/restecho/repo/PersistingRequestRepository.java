@@ -1,4 +1,4 @@
-package com.dilipkumarg.restecho.service;
+package com.dilipkumarg.restecho.repo;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,16 +9,12 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
 
 import com.dilipkumarg.restecho.entities.RequestDetails;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
-@Service
-@Primary
 @Slf4j
 public class PersistingRequestRepository implements RequestRepository {
 
