@@ -8,11 +8,11 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.dilipkumarg.restecho.entities.RequestDetails;
 
-@Component
+@Service("inMemory")
 public class InMemoryRequestRepository implements RequestRepository {
 
     @Value("${app.history.entries.size}")
